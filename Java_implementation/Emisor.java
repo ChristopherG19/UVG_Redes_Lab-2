@@ -4,10 +4,12 @@ import java.util.Random;
 public class Emisor {
 
     Random rand = new Random();
+    View view = new View();
 
     ArrayList<Boolean> trama = new ArrayList<>();
     ArrayList<Boolean> tramaOriginal;
     ArrayList<Boolean> polinomio;
+    ArrayList<Boolean> result;
 
     public Emisor(String input) {
 
@@ -28,24 +30,31 @@ public class Emisor {
             }
 
         System.out.println("\ncon padding");
-        printTrama(trama);
+        view.printTrama(trama);
 
         // generate polinomio
         polinomio = new ArrayList<>();
-        polinomio.add(true); // The fist has to be 1
-        for (int i = 0; i < 32; i ++ ){
-            polinomio.add(rand.nextBoolean());
-        }
+        // polinomio.add(true); // The fist has to be 1
+        // for (int i = 0; i < 32; i ++ ){
+        //     polinomio.add(rand.nextBoolean());
+        // }
+        Boolean[] pol = {
+            true, false, true, true, false, true, false, true, 
+            false, false, false, true, false, true, false, true,
+            false, false, false, false, true, true, true, false, 
+            true, false, false, true, true, false, true, false
+        };
+        for (boolean b: pol) polinomio.add(b);
 
         System.out.println("\npolinomio");
-        printTrama(polinomio);
+        view.printTrama(polinomio);
 
         // excecute algorithm
         CRC();
 
     }
 
-    private ArrayList<Boolean> CRC() {
+    private void CRC() {
 
         ArrayList<Boolean> actual = new ArrayList<>();
 
@@ -60,14 +69,14 @@ public class Emisor {
             ArrayList<Boolean> temp = new ArrayList<>();
 
             System.out.println("\n");
-            printTrama(actual);
-            printTrama(polinomio);
+            view.printTrama(actual);
+            view.printTrama(polinomio);
 
             for (int i = 0; i < polinomio.size(); i ++) {
                 temp.add(actual.get(i) ^ polinomio.get(i));
             }
 
-            printTrama(temp);
+            view.printTrama(temp);
 
             while (!temp.get(0) && EOL < trama.size()) {
                 temp.add(trama.get(EOL));
@@ -82,22 +91,25 @@ public class Emisor {
         }
 
         System.out.println("\nactual");
-        printTrama(actual);
+        view.printTrama(actual);
         actual.remove(0); // remove the first 0
-        printTrama(actual);
+        view.printTrama(actual);
 
         // Add the result to the original trama
-        ArrayList<Boolean> result = new ArrayList<>(tramaOriginal);
+        result = new ArrayList<>(tramaOriginal);
         result.addAll(actual);
 
         System.out.println("\nResultado final");
-        printTrama(result);
+        view.printTrama(result);
 
-        return result;
     }
 
     public ArrayList<Boolean> getPolinomio() {
         return polinomio;
+    }
+
+    public ArrayList<Boolean> get_response() {
+        return result;
     }
 
     public boolean getParidad() {
@@ -111,15 +123,5 @@ public class Emisor {
         else return false;
     }
     
-    public void printTrama(ArrayList<Boolean> t) {
-        String res = "";
-
-        for(boolean b: t) {
-            if (b) res += "1";
-            else res += "0";
-        }
-
-        System.out.println(res);
-    }
     
 }

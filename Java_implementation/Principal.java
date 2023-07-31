@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Principal {
     public static void main(String[] arg) {
 
@@ -9,6 +11,9 @@ public class Principal {
 
         // Give input to emisor
         Emisor emisor = new Emisor(input);
+        ArrayList<Boolean> response = emisor.get_response();
+
+        Receptor receptor = new Receptor(response);
         
 
     }
