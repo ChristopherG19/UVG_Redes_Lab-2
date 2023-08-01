@@ -11,7 +11,7 @@ public class Principal {
 
         // Give input to emisor
         Emisor emisor = new Emisor(input);
-        ArrayList<Boolean> response = emisor.get_response();
+        String response = emisor.get_response();
 
         Receptor receptor = new Receptor(response);
         

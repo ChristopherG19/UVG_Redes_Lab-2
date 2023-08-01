@@ -108,8 +108,13 @@ public class Emisor {
         return polinomio;
     }
 
-    public ArrayList<Boolean> get_response() {
-        return result;
+    public String get_response() {
+        String res = "";
+        for (boolean b: result) {
+            if (b) res += "1";
+            else res += "0";
+        }
+        return res;
     }
 
     public boolean getParidad() {

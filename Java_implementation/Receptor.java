@@ -4,14 +4,17 @@ public class Receptor {
 
     View view = new View();
 
-    ArrayList<Boolean> trama;
+    ArrayList<Boolean> trama = new ArrayList<>();
     ArrayList<Boolean> result;
 
     ArrayList<Boolean> polinomio;
 
-    public Receptor(ArrayList<Boolean> trama) {
+    public Receptor(String tramaS) {
 
-        this.trama = trama;
+        for (char c: tramaS.toCharArray()) {
+            if (c == '1') trama.add(true);
+            if (c == '0') trama.add(false);
+        }
 
         // generate polinomio
         polinomio = new ArrayList<>();
