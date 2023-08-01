@@ -1,4 +1,6 @@
 from view import *
+from emisor import *
+from receptor import *
 
 def main():
     
@@ -6,6 +8,10 @@ def main():
     userInput = getUserInput()
     print("Input")
     print(userInput)
+
+    
+    emisor = Emisor(userInput)
+
 
 
 if __name__ == '__main__':
