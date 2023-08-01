@@ -11,6 +11,9 @@ def main():
 
     
     emisor = Emisor(userInput)
+    response = emisor.get_response()
+
+    receptor = Receptor(response)
 
 
 
