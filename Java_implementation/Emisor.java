@@ -58,48 +58,55 @@ public class Emisor {
 
         ArrayList<Boolean> actual = new ArrayList<>();
 
-        int EOL = polinomio.size();
-
-        // initialize by coping the first 32 values
-        for (int i = 0; i < polinomio.size() ;  i ++) {
-            actual.add(trama.get(i));
+        // initialize by copying the first bits of the trama
+        for (int i = 0; i < polinomio.size(); i++) {
+            actual.add(trama.get(i) ^ polinomio.get(i));
         }
-
-        while (EOL < trama.size()) {
-            ArrayList<Boolean> temp = new ArrayList<>();
-
-            System.out.println("\n");
-            view.printTrama(actual);
-            view.printTrama(polinomio);
-
-            for (int i = 0; i < polinomio.size(); i ++) {
-                temp.add(actual.get(i) ^ polinomio.get(i));
-            }
-
-            view.printTrama(temp);
-
-            while (!temp.get(0) && EOL < trama.size()) {
-                temp.add(trama.get(EOL));
-                EOL ++;
-
-                temp.remove(0); 
-            }
-
-            // replace actual for temporal
-            actual = new ArrayList<>(temp);
-
-        }
-
-        System.out.println("\nactual");
-        view.printTrama(actual);
-        actual.remove(0); // remove the first 0
+        System.out.println();
+        view.printTrama(trama);
+        view.printTrama(polinomio);
         view.printTrama(actual);
 
-        // Add the result to the original trama
+        int nextB = polinomio.size();
+
+        while(nextB < trama.size()) {
+
+            // remove the first 0 and add next bit
+            
+            actual.remove(0);
+            actual.add(trama.get(nextB));
+            nextB++;
+            
+            // check if the first digit is 0            
+            if (actual.get(0)) {
+
+                System.out.println();
+                view.printTrama(actual);
+                view.printTrama(polinomio);
+
+                // oparate normally
+                ArrayList<Boolean> temp = new ArrayList<>();
+                for (int i = 0; i < polinomio.size(); i ++) {
+                    temp.add(actual.get(i) ^ polinomio.get(i));
+                }
+
+                view.printTrama(temp);
+
+                // replace
+                actual = new ArrayList<>(temp);
+            }
+
+            else {
+                System.out.println();
+                view.printTrama(actual);
+            }
+
+        }
+
+        System.out.println("\nResultado");
         result = new ArrayList<>(tramaOriginal);
+        actual.remove(0); // remove first 0
         result.addAll(actual);
-
-        System.out.println("\nResultado final");
         view.printTrama(result);
 
     }
