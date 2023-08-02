@@ -18,16 +18,16 @@ def main():
         print("Error reading file")
         return
     
-    pos, original, bitsA, req = input.split("||")
+    bitsA, req = input.split("||")
 
     newL = list(req)
     newL[2] = '1'
     bad_request = "".join(newL)
-    Rec = Receptor(bad_request, bitsA, original, pos)
+    Rec = Receptor(req, bitsA)
     res,correcion = Rec.check()
 
     print()
-    print("Data enviada al receptor: ", bad_request)
+    print("Data enviada al receptor: ", req)
     print("\nResultado:", res)
     if correcion != "":
         print(correcion)

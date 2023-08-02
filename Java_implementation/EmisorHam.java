@@ -38,7 +38,6 @@ public class EmisorHam {
         }
 
         String bitsA = "";
-        String bistPos = "";
         // Encontrar las posiciones n que poseen unos en cada columna p
         for (int j = 0; j < p; j++) {
             String onesPositions = "";
@@ -69,7 +68,6 @@ public class EmisorHam {
                 
                 if(positionsData.get(position) == ""){
                     positionsData.put(position, String.valueOf(parityBit));
-                    bistPos += positionStr;
                 }
             }
 
@@ -82,7 +80,7 @@ public class EmisorHam {
             finalString.append(value);
         }
 
-        finalResponse = finalString.toString()+"||"+bitsA+"||"+originalData+"||"+bistPos;
+        finalResponse = finalString.toString()+"||"+bitsA;
 
     }
 

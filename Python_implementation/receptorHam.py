@@ -10,9 +10,7 @@ from prettytable import PrettyTable
 import copy
 
 class Receptor():
-    def __init__(self, data, bitsA, original, posC):
-        self.originalD = original
-        self.changes = list(posC)
+    def __init__(self, data, bitsA):
         self.originalDa = data
         self.data = data[:-3]
         self.cantBits = len(self.data)
@@ -41,7 +39,6 @@ class Receptor():
         size = bits + p
         powers = self.getPowers(p)
         positions = {}
-        pars = {}
         for bit in range(size, 0, -1):
             if bit not in list(powers.keys()):
                 positions[int(bit)] = '*'
@@ -83,17 +80,13 @@ class Receptor():
                     if el == k2:
                         temp[el] = v2
             finalCheckVals[k1] = temp
-            
-        newFC = copy.deepcopy(finalCheckVals)
-        
+
         newPos = {}
         for i in range(len(self.originalDa), 0, -1):
             newPos[i] = self.originalDa[::-1][i-1]
             
         for k,v in finalCheckVals.items():
             v2 = list(v.values())
-            change = 0
-            
             for k2, v3 in v.items():
                 v[k2] = newPos[k2]
               
