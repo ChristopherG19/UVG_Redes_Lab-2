@@ -34,10 +34,6 @@ public class Emisor {
 
         // generate polinomio
         polinomio = new ArrayList<>();
-        // polinomio.add(true); // The fist has to be 1
-        // for (int i = 0; i < 32; i ++ ){
-        //     polinomio.add(rand.nextBoolean());
-        // }
         Boolean[] pol = {
             true, false, true, true, false, true, false, true, 
             false, false, false, true, false, true, false, true,
