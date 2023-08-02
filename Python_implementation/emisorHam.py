@@ -110,4 +110,4 @@ class Emisor():
         # for k,v in lastCheck.items():
         #     print(k,v)
                         
-        return (pars, newFC, "".join([str(x) for x in list(positions.values())]), changeDic) 
+        return "".join([str(x) for x in list(positions.values())])

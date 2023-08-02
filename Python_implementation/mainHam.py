@@ -12,21 +12,25 @@ from receptorHam import Receptor
 def main():
     
     # get input from file
-    req = read_txt_file("responseHamming.txt")
+    input = read_txt_file("responseHamming.txt")
 
-    if req == "": 
+    if input == "": 
         print("Error reading file")
         return
-          
-    Ems = Emisor(req)
-    l = Ems.get_response()
-    Rec = Receptor(l[2], l[0], l[1], l[3])
-    res = Rec.check()
+    
+    pos, original, bitsA, req = input.split("||")
+
+    newL = list(req)
+    newL[2] = '1'
+    bad_request = "".join(newL)
+    Rec = Receptor(bad_request, bitsA, original, pos)
+    res,correcion = Rec.check()
 
     print()
-    print("Data enviada por el emisor: ", req)
-    print("Data enviada al receptor: ", l[2])
+    print("Data enviada al receptor: ", bad_request)
     print("\nResultado:", res)
+    if correcion != "":
+        print(correcion)
     print()
 
 def read_txt_file(file_path):

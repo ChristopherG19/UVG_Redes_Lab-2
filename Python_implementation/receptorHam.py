@@ -7,48 +7,111 @@
 '''
 
 from prettytable import PrettyTable
+import copy
 
 class Receptor():
-    def __init__(self, data, pars, original, changes):
-        self.data = data
-        self.pars = pars
-        self.parsO = original
-        self.changes = changes
+    def __init__(self, data, bitsA, original, posC):
+        self.originalD = original
+        self.changes = list(posC)
+        self.originalDa = data
+        self.data = data[:-3]
+        self.cantBits = len(self.data)
+        self.bitsA = bitsA
                 
-    def new_word(self):
-        new_w = {}
-        l = list(self.data)
-        l.reverse()
-        for index in range(len(l),0,-1):
-            new_w[index] = int(l[index-1])
-
-        return new_w
-
-    def get_values(self):
-        newDic = {}
-        bits = {}
-        toCalc = {}
-        for k,v in self.pars.items():
-            for k2,v2 in v.items():
-                bits[k] = k2
-                temp = []
-                for key, value in zip(list(v2.keys()), list(v2.values())):
-                    temp.append(key)
-                    if key not in newDic:
-                        newDic[key] = value
-                toCalc[k] = temp
-                     
-        newDic = dict(sorted(newDic.items(), key=lambda item:item[0], reverse=True))   
-
-        return (newDic, bits, toCalc)
-    
-    def get_bit_paridad(self, ls):
-        count = ls.count(1)
-        change = 0
-        if (count % 2 != 0):
-            change = 1        
+    def getP(self):
+        p = 0
+        isBigger = False
+        while not isBigger:
+            goal = 2**p
+            check = p+self.cantBits+1
+            if(goal >= check):
+                isBigger = True
+                return p
+            p += 1
+            
+    def getPowers(self, p):
+        powers = {}
+        for i in range(p):
+            powers[2**i] = f'P{i}'
+        return powers
+           
+    def get_response(self):
+        p = self.getP()
+        bits = len(self.data)
+        size = bits + p
+        powers = self.getPowers(p)
+        positions = {}
+        pars = {}
+        for bit in range(size, 0, -1):
+            if bit not in list(powers.keys()):
+                positions[int(bit)] = '*'
+            else:
+                positions[int(bit)] = '+'
+        dataV = list(self.data)
+        dataV.reverse()
+        for k,v in positions.items():
+            if dataV:
+                if v == '*':
+                    val = dataV.pop()
+                    positions[k] = int(val)
+                else:
+                    continue
         
-        return change
+        table = PrettyTable()
+        valuesTable = {}
+        n = [x for x in range(size+1)]
+        table.add_column('n', n)
+        for i in range(len(powers)):
+            power = list(powers.keys())[i]
+            name = powers[power]
+            temp_column = [1 if (i // power) % 2 == 1 else 0 for i in range(size+1)]
+            table.add_column(name, temp_column)
+            valuesTable[name] = temp_column
+
+        # Print tables
+        self.table = table
+        
+        checkVals = {}
+        for k,v in valuesTable.items():
+            checkVals[k] = [indice for indice, valor in enumerate(v) if valor == 1]
+        
+        finalCheckVals = {}
+        for k1,v1 in checkVals.items():
+            temp = {}
+            for el in v1:
+                for k2,v2 in positions.items():
+                    if el == k2:
+                        temp[el] = v2
+            finalCheckVals[k1] = temp
+            
+        newFC = copy.deepcopy(finalCheckVals)
+        
+        newPos = {}
+        for i in range(len(self.originalDa), 0, -1):
+            newPos[i] = self.originalDa[::-1][i-1]
+            
+        for k,v in finalCheckVals.items():
+            v2 = list(v.values())
+            change = 0
+            
+            for k2, v3 in v.items():
+                v[k2] = newPos[k2]
+              
+              
+        bitsB = ""
+        for k,v in finalCheckVals.items():
+            count = 0
+            for k2, v2 in v.items():
+                if v2 == '1':
+                    count+=1
+            
+            if count % 2 == 0:
+                bitsB += '0'
+            else:
+                bitsB += '1'
+
+        bitsB = bitsB[::-1]
+        return (self.bitsA, bitsB)
     
     def binario_a_decimal(self, numero_binario):
         numero_decimal = 0 
@@ -59,24 +122,28 @@ class Receptor():
         return numero_decimal
     
     def check(self):
-        resultTemp = []
-        for k,v in self.get_values()[2].items():
-            for el,el2 in self.changes.items():
-                if k == el:
-                    newL = []
-                    for el3 in v:
-                        newL.append(self.new_word()[el3])
 
-                    bitP = self.get_bit_paridad(newL)
-                    resultTemp.append(bitP)
-            
-        correct = []        
-        for el, v in self.changes.items():
-            correct.append(v[1])
-
-        if correct != resultTemp and not all(elemento == 0 for elemento in resultTemp):
-            decimal = self.binario_a_decimal("".join([str(x) for x in resultTemp]))
-            return f"Hubo un error en el bit {decimal}"
-        return "Todo correcto, el mensaje no cuenta con errores"
-                
+        bitsA, bitsB = self.get_response()
         
+        if bitsA != bitsB and not all(elemento == '0' for elemento in list(bitsB)):
+            decimal = self.binario_a_decimal(bitsB)
+            return (f"Hubo un error en el bit {decimal}", f"Se hizo la correcion. Trama final: {self.toggle_char_at_position(self.originalDa, decimal)}")
+        return ("Todo correcto, el mensaje no cuenta con errores", "")
+                
+    def toggle_char_at_position(self, input_string, position):
+        newPos = {}
+        for i in range(len(input_string), 0, -1):
+            newPos[i] = input_string[::-1][i-1]
+
+        for k,v in newPos.items():
+            if k == position:
+                if v == '1':
+                    newPos[k] = '0'
+                else:
+                    newPos[k] = '1'
+                    
+        result_string = ""
+        for k,v in newPos.items():
+            result_string += v
+
+        return result_string
