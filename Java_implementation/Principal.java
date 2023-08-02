@@ -14,7 +14,7 @@ public class Principal {
         Receptor receptor = new Receptor(response);
 
         EmisorHam emisorH = new EmisorHam(input);
-        ReceptorHam recepH = new ReceptorHam();
+        
 
     }
 }
