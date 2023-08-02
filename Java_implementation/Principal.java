@@ -12,6 +12,8 @@ public class Principal {
         String response = emisor.get_response();
 
         Receptor receptor = new Receptor(response);
+
+        EmisorHam emisorH = new EmisorHam(input);
         
 
     }

@@ -1,3 +1,2 @@
 *.class
-
-CRC_py/__pycache__/
+__pycache__
