@@ -18,7 +18,10 @@ public class Principal {
         // ReceptorCRC receptor = new ReceptorCRC(response);
 
         EmisorHam emisorH = new EmisorHam(input);
-        
+        String resH = emisorH.get_response();
+        StringBuilder stringBuilder = new StringBuilder(resH);
+        String responseH = stringBuilder.reverse().toString();
+        stf.createTextFile(responseH, "responseHamming");
 
     }
 }

@@ -12,7 +12,7 @@ public class View {
         boolean gettingInput = true;
 
         while (gettingInput) {
-            System.out.println("Ingrese la secuencia a emitir:");
+            System.out.print("Ingrese la secuencia a emitir: ");
             String Userinput = scan.nextLine();
 
             // check for other symbols other tha 0 or 1
