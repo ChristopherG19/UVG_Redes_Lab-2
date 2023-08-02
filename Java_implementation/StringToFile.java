@@ -6,7 +6,7 @@ public class StringToFile {
 
     public StringToFile() {}
 
-    public static void createTextFile(String response, String fileName) {
+    public void createTextFile(String response, String fileName) {
         try {
             // Inicializar el buffer
             BufferedWriter writer = new BufferedWriter(new FileWriter(fileName + ".txt"));

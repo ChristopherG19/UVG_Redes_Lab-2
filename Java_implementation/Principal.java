@@ -2,6 +2,7 @@ public class Principal {
     public static void main(String[] arg) {
 
         View view = new View();
+        StringToFile stf = new StringToFile();
         
 
         String input = view.getUserInput();
@@ -11,7 +12,10 @@ public class Principal {
         EmisorCRC emisor = new EmisorCRC(input);
         String response = emisor.get_response();
 
-        ReceptorCRC receptor = new ReceptorCRC(response);
+        stf.createTextFile(response, "responseCRC");
+
+
+        // ReceptorCRC receptor = new ReceptorCRC(response);
 
         EmisorHam emisorH = new EmisorHam(input);
         
