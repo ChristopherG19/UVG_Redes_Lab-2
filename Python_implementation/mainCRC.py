@@ -1,6 +1,6 @@
 from view import *
-from emisor import *
-from receptor import *
+from emisorCRC import *
+from receptorCRC import *
 
 def main():
     

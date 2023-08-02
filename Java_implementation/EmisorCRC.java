@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Emisor {
+public class EmisorCRC {
 
     Random rand = new Random();
     View view = new View();
@@ -11,7 +11,7 @@ public class Emisor {
     ArrayList<Boolean> polinomio;
     ArrayList<Boolean> result;
 
-    public Emisor(String input) {
+    public EmisorCRC(String input) {
 
         for (char c: input.toCharArray()) {
             if (c == '1') {

@@ -8,10 +8,10 @@ public class Principal {
         System.out.println("user input \n" + input);
 
         // Give input to emisor
-        Emisor emisor = new Emisor(input);
+        EmisorCRC emisor = new EmisorCRC(input);
         String response = emisor.get_response();
 
-        Receptor receptor = new Receptor(response);
+        ReceptorCRC receptor = new ReceptorCRC(response);
 
         EmisorHam emisorH = new EmisorHam(input);
         

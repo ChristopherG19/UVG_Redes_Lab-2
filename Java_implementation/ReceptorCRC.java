@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Receptor {
+public class ReceptorCRC {
 
     View view = new View();
 
@@ -9,7 +9,7 @@ public class Receptor {
 
     ArrayList<Boolean> polinomio;
 
-    public Receptor(String tramaS) {
+    public ReceptorCRC(String tramaS) {
 
         for (char c: tramaS.toCharArray()) {
             if (c == '1') trama.add(true);
