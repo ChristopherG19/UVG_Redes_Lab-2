@@ -67,6 +67,7 @@ class Receptor():
 
         # Print tables
         self.table = table
+        print(self.table)
         
         checkVals = {}
         for k,v in valuesTable.items():

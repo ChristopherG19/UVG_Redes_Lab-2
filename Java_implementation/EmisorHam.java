@@ -1,4 +1,5 @@
 import java.util.HashMap;
+import java.util.List;
 
 public class EmisorHam {
 
@@ -74,13 +75,12 @@ public class EmisorHam {
             bitsA += parityBit;
         }
 
-
         StringBuilder finalString = new StringBuilder();
         for (String value : positionsData.values()) {
             finalString.append(value);
         }
 
-        finalResponse = finalString.toString()+"||"+bitsA;
+        finalResponse = finalString.toString()+";"+bitsA;
 
     }
 
@@ -103,13 +103,5 @@ public class EmisorHam {
 
     public String get_response(){
         return finalResponse;
-    }
-
-    public static void main(String[] args) {
-        String input = "1011";
-        EmisorHam em = new EmisorHam(input);
-        System.out.println("Data enviada por el emisor: "+input);
-        System.out.println("Respuesta del emisor: "+em.get_response()+"\n");
-    }
-
+    }    
 }
