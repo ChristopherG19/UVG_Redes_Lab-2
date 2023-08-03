@@ -84,19 +84,19 @@ class Receptor():
 
         newPos = {}
         for i in range(len(self.originalDa), 0, -1):
-            newPos[i] = self.originalDa[::-1][i-1]
+            newPos[i] = int(self.originalDa[::-1][i-1])
             
         for k,v in finalCheckVals.items():
             v2 = list(v.values())
             for k2, v3 in v.items():
-                v[k2] = newPos[k2]
-              
-              
+                if k2 in newPos:
+                    v[int(k2)] = newPos[k2]
+                                  
         bitsB = ""
         for k,v in finalCheckVals.items():
             count = 0
             for k2, v2 in v.items():
-                if v2 == '1':
+                if v2 == 1:
                     count+=1
             
             if count % 2 == 0:
@@ -118,7 +118,6 @@ class Receptor():
     def check(self):
 
         bitsA, bitsB = self.get_response()
-        
         if bitsA != bitsB and not all(elemento == '0' for elemento in list(bitsB)):
             decimal = self.binario_a_decimal(bitsB)
             return (f"Hubo un error en el bit {decimal}", f"Se hizo la correcion. Trama final: {self.toggle_char_at_position(self.originalDa, decimal)}")
@@ -131,13 +130,13 @@ class Receptor():
 
         for k,v in newPos.items():
             if k == position:
-                if v == '1':
-                    newPos[k] = '0'
+                if v == 1:
+                    newPos[k] = 0
                 else:
-                    newPos[k] = '1'
+                    newPos[k] = 1
                     
         result_string = ""
         for k,v in newPos.items():
-            result_string += v
+            result_string += str(v)
 
         return result_string

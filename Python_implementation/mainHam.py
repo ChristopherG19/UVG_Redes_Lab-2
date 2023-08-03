@@ -21,16 +21,21 @@ def main():
     bitsA, req = input.split(";")
 
     newL = list(req)
-    newL[2] = '1'
+    p = 2
+    if newL[p] == '0':
+        newL[p] = '1' 
+    elif newL[p] == '1':
+        newL[p] = '0'
     bad_request = "".join(newL)
     Rec = Receptor(bad_request, bitsA)
     res,correcion = Rec.check()
 
     print()
-    print("Data enviada al receptor: ", bad_request)
-    print("Resultado:", res)
+    print("Data enviada al receptor: ", req)
+    print("Data modificada enviada al receptor: ", bad_request)
+    print("\nResultado:", res)
     if correcion != "":
-        print(correcion)
+        print("Trama descartada por errores")
     print()
 
 def read_txt_file(file_path):
