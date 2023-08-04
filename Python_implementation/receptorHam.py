@@ -82,23 +82,23 @@ class Receptor():
                         temp[el] = v2
             finalCheckVals[k1] = temp
 
-        newPos = {}
+        self.newPos = {}
         for i in range(len(self.originalDa), 0, -1):
-            newPos[i] = int(self.originalDa[::-1][i-1])
+            self.newPos[i] = int(self.originalDa[::-1][i-1])
             
         for k,v in finalCheckVals.items():
             v2 = list(v.values())
             for k2, v3 in v.items():
-                if k2 in newPos:
-                    v[int(k2)] = newPos[k2]
-                                  
+                if k2 in self.newPos:
+                    v[int(k2)] = self.newPos[k2]
+                    
         bitsB = ""
         for k,v in finalCheckVals.items():
             count = 0
             for k2, v2 in v.items():
-                if v2 == 1:
+                if v2 == 1 and k2 in self.newPos:
                     count+=1
-            
+
             if count % 2 == 0:
                 bitsB += '0'
             else:
@@ -120,23 +120,19 @@ class Receptor():
         bitsA, bitsB = self.get_response()
         if bitsA != bitsB and not all(elemento == '0' for elemento in list(bitsB)):
             decimal = self.binario_a_decimal(bitsB)
-            return (f"Hubo un error en el bit {decimal}", f"Se hizo la correcion. Trama final: {self.toggle_char_at_position(self.originalDa, decimal)}")
+            return (f"Hubo un error en el bit {decimal}", f"Se hizo la correcion. Trama final: {self.toggle_char_at_position(decimal)}")
         return ("Todo correcto, el mensaje no cuenta con errores", "")
                 
-    def toggle_char_at_position(self, input_string, position):
-        newPos = {}
-        for i in range(len(input_string), 0, -1):
-            newPos[i] = input_string[::-1][i-1]
-
-        for k,v in newPos.items():
+    def toggle_char_at_position(self, position):
+        for k,v in self.newPos.items():
             if k == position:
                 if v == 1:
-                    newPos[k] = 0
+                    self.newPos[k] = 0
                 else:
-                    newPos[k] = 1
+                    self.newPos[k] = 1
                     
         result_string = ""
-        for k,v in newPos.items():
+        for k,v in self.newPos.items():
             result_string += str(v)
 
         return result_string

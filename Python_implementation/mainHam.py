@@ -34,8 +34,10 @@ def main():
     print("Data enviada al receptor: ", req)
     print("Data modificada enviada al receptor: ", bad_request)
     print("\nResultado:", res)
-    if correcion != "":
+    if correcion == "":
         print("Trama descartada por errores")
+    else:
+        print(correcion)
     print()
 
 def read_txt_file(file_path):
